@@ -23,8 +23,6 @@ export function DELETE(_, response){
   try {
     console.log(users)
     const noUsers = [];
-    console.log("datapath = ", dataPath)
-
     fs.writeFileSync(dataPath, JSON.stringify(noUsers), 'utf8');
     return NextResponse.json(noUsers)
   } catch (err) {

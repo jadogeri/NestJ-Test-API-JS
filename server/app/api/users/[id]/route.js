@@ -8,35 +8,82 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const dataPath = __dirname + "\\..\\..\\..\\util\\users.json"
 
-export function GET(_, response){
-    const { id } = response.params;
+export async function GET(_, response){
+    const { id } = await response.params;
     const foundUser = users.filter(user => user.id == id);
     if(foundUser.length > 0){
         return NextResponse.json(foundUser[0])
     }
-    return NextResponse.json({ message : 'User not found with ID : ' + id})
+    return NextResponse.json({ message : 'User not found with ID : ' + id}, {status: 404})
 }
 
-export function DELETE(_, response){
-    const { id } = response.params;
+export async function DELETE(_, response){
+    const { id } = await response.params;
     const initialLength = users.length;
-    const newUsersList = users.filter(user => user.id !== id);
+    const newUsersList = users.filter(user => user.id != id);
     if(newUsersList.length < initialLength){
-        fs.writeFileSync(dataPath, JSON.stringify(newUsersList), 'utf8');
+        fs.writeFileSync(dataPath, JSON.stringify(newUsersList, null, 2), 'utf8');
         return NextResponse.json({message: 'User deleted with ID:' + id})
     }else{
-        return NextResponse.json({ message : `User not found for deletion.`})
+        return NextResponse.json({ message : `User not found for deletionwith ID: ${id}`}, {status: 404})
 
     }
 }
 
-export function PUT(request, response){
-    const { id } = response.params;
-    return NextResponse.json({ result : `put method with id ${id}`})
+export async function PUT(request, response){
+    const { id } = await response.params;
+    const foundUser = users.filter(user => user.id == id);
+    const {username, age, email, isActive } = await request.json();
+    const data = {
+        username: !username? "" : username,
+        age: !age? 0 : age,
+        isActive :isActive == undefined? true : !isActive? false : true,
+        email: !email? "" : email
+    }
+    if(foundUser.length > 0){
+        const updatedUser = {...foundUser[0], ...data}
+        const newUsersList = users.map((user)=>{
+            if(user.id == updatedUser.id){
+                return updatedUser;
+            }else{
+                return user;
+            }              
+        })
+        fs.writeFileSync(dataPath, JSON.stringify(newUsersList, null, 2), 'utf8');
+        return NextResponse.json(updatedUser, {status: 200})
+
+    }else{
+       return NextResponse.json({ message : `User not found for replace with ID: ${id}`}, {status: 404})
+    }
 }
 
-export function PATCH(request, response){
-    const { id } = response.params;
-    return NextResponse.json({ result : `patch method id ${id}`})
+export async function PATCH(request, response){
+    const { id } = await response.params;
+    const foundUser = users.filter(user => user.id == id);
+    const {username, age, email, isActive } = await request.json();
+
+    let data = {username, age, email, isActive }
+    for (const key in data) {
+        if (data[key] === undefined) {
+            delete data[key];
+        }
+    }
+
+    console.log("data to update", data)
+    if(foundUser.length > 0){
+        const updatedUser = {...foundUser[0], ...data}
+        const newUsersList = users.map((user)=>{
+            if(user.id == updatedUser.id){
+                return updatedUser;
+            }else{
+                return user;
+            }              
+        })
+        fs.writeFileSync(dataPath, JSON.stringify(newUsersList, null, 2), 'utf8');
+        return NextResponse.json(updatedUser, {status: 200})
+
+    }else{
+       return NextResponse.json({ message : `User not found for update with ID: ${id}`}, {status: 404})
+    }
 }
 

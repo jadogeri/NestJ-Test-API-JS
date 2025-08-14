@@ -25,7 +25,7 @@ export async function DELETE(_, response){
         fs.writeFileSync(dataPath, JSON.stringify(newUsersList, null, 2), 'utf8');
         return NextResponse.json({message: 'User deleted with ID:' + id})
     }else{
-        return NextResponse.json({ message : `User not found for deletionwith ID: ${id}`}, {status: 404})
+        return NextResponse.json({ message : `User not found for deletion with ID: ${id}`}, {status: 404})
 
     }
 }

@@ -46,20 +46,19 @@ This is a nextjs application (javascript) for testing CRUD in frontend or backen
 
 ### 1.1 Purpose
 
-This document outlines the package architecture, components, and design considerations for Fetching Data from an API. The goal is to create an abstraction to Fetch API implementation and perform CRUD operations.
+This document outlines the package architecture, components, and design considerations for runninr test API. The goal is to create a test API for performing CRUD operations.
 
 ### 1.2 Scope
 
 This package will allow users to:
 
 - Performs GET, POST, PUT, PATCH and DELETE requests.
-- Allows headers and baseUrl to be set after initialization.
-- Abstracts Fetch API implementation..
+- Allows reset of data(json serving as database objects).
 
 ### 1.3 Intended Audience
 
 - Junior or Senior developers.
-- Beginners learning typescript.
+- Beginners learning javascriptscript.
 
 ---
 
@@ -87,8 +86,12 @@ This package will allow users to:
 ```bash
   cd NextJS-Test-API-JS/server
 ```
+3 Type npm install command for installing project dependencies.
 
-3 Type npm run dev to run application in development mode.
+```bash
+  npm install
+```
+4 Type npm run dev to run application in development mode.
 
 ```bash
   npm run dev

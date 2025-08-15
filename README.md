@@ -58,7 +58,7 @@ This package will allow users to:
 ### 1.3 Intended Audience
 
 - Junior or Senior developers.
-- Beginners learning javascriptscript.
+- Beginners learning javascript.
 
 ---
 

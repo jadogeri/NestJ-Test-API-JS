@@ -101,7 +101,7 @@ This package will allow users to:
 
 Utilize the documentation below for testing frontend or backend application.
 
-## [API Documentation](https://documenter.getpostman.com/view/40822092/2sB3BHjTYz)
+[link to documentation](https://documenter.getpostman.com/view/40822092/2sB3BHmUfq)
 
 ## 5. License
 
